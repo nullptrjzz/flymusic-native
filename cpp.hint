@@ -1,0 +1,2 @@
+#define FLYAUDIO_API __declspec(dllexport)
+#define FLYAUDIO_API __declspec(dllimport)
