@@ -81,8 +81,22 @@ extern "C" {
 		return BASS_ChannelBytes2Seconds(stream, len);
 	}
 
+	FLYAUDIO_API unsigned long long getDurationB() {
+		QWORD len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
+		return len;
+	}
+
+	FLYAUDIO_API unsigned long long getPositionB() {
+		QWORD len = BASS_ChannelGetPosition(stream, BASS_POS_BYTE);
+		return len;
+	}
+
 	FLYAUDIO_API void setPosition(double sec) {
 		QWORD pos = BASS_ChannelSeconds2Bytes(stream, sec);
+		BASS_ChannelSetPosition(stream, pos, BASS_POS_BYTE);
+	}
+
+	FLYAUDIO_API void setPositionB(unsigned long long pos) {
 		BASS_ChannelSetPosition(stream, pos, BASS_POS_BYTE);
 	}
 

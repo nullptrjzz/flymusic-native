@@ -40,6 +40,10 @@ extern "C" {
 	FLYAUDIO_API double getPosition();
 	FLYAUDIO_API void setPosition(double);
 
+	FLYAUDIO_API unsigned long long getDurationB();
+	FLYAUDIO_API unsigned long long getPositionB();
+	FLYAUDIO_API void setPositionB(unsigned long long);
+
 	FLYAUDIO_API int setVolume(int);
 	FLYAUDIO_API int getVolume();
 
