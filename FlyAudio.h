@@ -20,8 +20,8 @@ struct DEVICE_INFO {
 	const char* name;	// description
 	const char* driver;	// driver
 #endif
-	DWORD flags;
-	int isDefault;
+	unsigned long long flags;
+	bool isDefault;
 };
 
 extern "C" {

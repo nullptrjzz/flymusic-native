@@ -23,6 +23,7 @@ extern "C" {
 		deviceCount = 0;
 		std::vector<DEVICE_INFO*> vec;
 		BASS_DEVICEINFO info;
+		BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, true);
 		for (a = 1; BASS_GetDeviceInfo(a, &info); a++) {
 			if (info.flags & BASS_DEVICE_ENABLED) {
 				deviceCount++;
@@ -72,27 +73,27 @@ extern "C" {
 	}
 
 	FLYAUDIO_API double getDuration() {
-		QWORD len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
+		unsigned long long len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
 		return BASS_ChannelBytes2Seconds(stream, len);
 	}
 
 	FLYAUDIO_API double getPosition() {
-		QWORD len = BASS_ChannelGetPosition(stream, BASS_POS_BYTE);
+		unsigned long long len = BASS_ChannelGetPosition(stream, BASS_POS_BYTE);
 		return BASS_ChannelBytes2Seconds(stream, len);
 	}
 
 	FLYAUDIO_API unsigned long long getDurationB() {
-		QWORD len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
+		unsigned long long len = BASS_ChannelGetLength(stream, BASS_POS_BYTE);
 		return len;
 	}
 
 	FLYAUDIO_API unsigned long long getPositionB() {
-		QWORD len = BASS_ChannelGetPosition(stream, BASS_POS_BYTE);
+		unsigned long long len = BASS_ChannelGetPosition(stream, BASS_POS_BYTE);
 		return len;
 	}
 
 	FLYAUDIO_API void setPosition(double sec) {
-		QWORD pos = BASS_ChannelSeconds2Bytes(stream, sec);
+		unsigned long long pos = BASS_ChannelSeconds2Bytes(stream, sec);
 		BASS_ChannelSetPosition(stream, pos, BASS_POS_BYTE);
 	}
 
