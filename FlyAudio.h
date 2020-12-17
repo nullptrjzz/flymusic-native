@@ -5,12 +5,20 @@
 // FLYAUDIO_API 函数视为是从 DLL 导入的，而此 DLL 则将用此宏定义的
 // 符号视为是被导出的。
 
+#ifdef _WIN32
 
 #ifdef FLYAUDIO_EXPORTS
 #define FLYAUDIO_API __declspec(dllexport)
 #else
 #define FLYAUDIO_API __declspec(dllimport)
 #endif
+
+#else
+
+#define FLYAUDIO_API
+
+#endif // _WIN32
+
 
 struct DEVICE_INFO {
 #if defined(_WIN32_WCE) || (WINAPI_FAMILY && WINAPI_FAMILY!=WINAPI_FAMILY_DESKTOP_APP)
@@ -24,7 +32,33 @@ struct DEVICE_INFO {
 	bool isDefault;
 };
 
+/* 记录音频文件信息，来自ID3(v2)标签 */
+struct AUDIO_META {
+	// basic info
+	int length; // s
+	int bitRate; // kb/s
+	int channels;
+	int sampleRate; // Hz
+
+	// id3 tags
+	const char* title;
+	const char* artist;
+	const char* album;
+	const char* comment;
+	const char* genre;
+	int year;
+	int track;
+
+	// other id3 tags
+	const char* albumartist;
+	const char* subtitle;
+	int discnumber;
+	int date;
+	int originaldate;
+};
+
 extern "C" {
+	/* Player control */
 	FLYAUDIO_API void init(int, int);
 	FLYAUDIO_API DEVICE_INFO** getDevices();
 	FLYAUDIO_API int getDeviceCount();
@@ -51,4 +85,7 @@ extern "C" {
 
 	FLYAUDIO_API void freeStream();
 	FLYAUDIO_API void close();
+
+	/* Audio meta */
+	FLYAUDIO_API AUDIO_META* audioMeta(const char* file);
 }
