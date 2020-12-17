@@ -352,3 +352,5 @@ MigrationBackup/
 bass24-win32/
 /id3v2lib
 /id3v2.lib
+cmake-*
+.idea
