@@ -1,25 +1,12 @@
 ﻿// FlyAudio.cpp : 定义 DLL 的导出函数。
 //
-
-#pragma once
-#ifdef _WIN32
-#include "pch.h"
-#include "framework.h"
-#endif
-
 #include "FlyAudio.h"
 #include "bass.h"
-#include <taglib/tag.h>
-#include <taglib/fileref.h>
-#include <taglib/tpropertymap.h>
-#include <taglib/tstring.h>
 #include <vector>
 #include <iostream>
 
 #ifdef _WIN32
 #pragma comment (lib, "bass.lib")
-#pragma comment (lib, "tag.lib")
-#pragma comment (lib, "tag_c.lib")
 #else
 #endif
 
@@ -139,32 +126,5 @@ extern "C" {
 	FLYAUDIO_API void close() {
 		BASS_StreamFree(stream);
 		BASS_Free();
-	}
-
-	FLYAUDIO_API AUDIO_META* audioMeta(const char* file) {
-		TagLib::FileRef f(file);
-		AUDIO_META* meta = new AUDIO_META();
-		TagLib::Tag* tag = f.tag();
-		meta->bitRate = f.audioProperties()->bitrate();
-		meta->channels = f.audioProperties()->channels();
-		meta->length = f.audioProperties()->length();
-		meta->sampleRate = f.audioProperties()->sampleRate();
-		
-		meta->title = tag->title().toCString(true);
-		meta->artist = tag->artist().toCString(true);
-		meta->album = tag->album().toCString(true);
-		meta->comment = tag->comment().toCString(true);
-		meta->genre = tag->genre().toCString(true);
-		meta->year = tag->year();
-		meta->track = tag->track();
-
-		const char** otherProps = 
-			new const char* []{"ALBUMARTIST", "SUBTITLE", "DISCNUMBER", "DATE", "ORIGINALDATE", "COMPOSER", "LYRICIST", "CONDUCTOR", "REMIXER", "PERFORMER"};
-		TagLib::PropertyMap map = tag->properties();
-		
-		
-	
-		free(tag);
-		return meta;
 	}
 }

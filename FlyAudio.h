@@ -32,31 +32,6 @@ struct DEVICE_INFO {
 	bool isDefault;
 };
 
-/* 记录音频文件信息，来自ID3(v2)标签 */
-struct AUDIO_META {
-	// basic info
-	int length; // s
-	int bitRate; // kb/s
-	int channels;
-	int sampleRate; // Hz
-
-	// id3 tags
-	const char* title;
-	const char* artist;
-	const char* album;
-	const char* comment;
-	const char* genre;
-	int year;
-	int track;
-
-	// other id3 tags
-	const char* albumartist;
-	const char* subtitle;
-	int discnumber;
-	int date;
-	int originaldate;
-};
-
 extern "C" {
 	/* Player control */
 	FLYAUDIO_API void init(int, int);
@@ -85,7 +60,4 @@ extern "C" {
 
 	FLYAUDIO_API void freeStream();
 	FLYAUDIO_API void close();
-
-	/* Audio meta */
-	FLYAUDIO_API AUDIO_META* audioMeta(const char* file);
 }
