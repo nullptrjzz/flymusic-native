@@ -32,6 +32,16 @@ struct DEVICE_INFO {
 	bool isDefault;
 };
 
+/* 音频文件的封面 */
+struct AUDIO_ARTS {
+	int type;
+	char* file;
+	char* bin;
+	char* comment;
+
+	AUDIO_ARTS(int type, char* file, char* bin, char* comment) {}
+};
+
 extern "C" {
 	/* Player control */
 	FLYAUDIO_API void init(int, int);
@@ -60,4 +70,8 @@ extern "C" {
 
 	FLYAUDIO_API void freeStream();
 	FLYAUDIO_API void close();
+
+	FLYAUDIO_API const char* audioTags(const char* file);
+	FLYAUDIO_API const char* audioProperties(const char* file);
+	FLYAUDIO_API const char* audioArts(const char* file, const char* cacheDir, int bin);
 }
