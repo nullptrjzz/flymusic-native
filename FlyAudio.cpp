@@ -227,7 +227,7 @@ extern "C" {
 	}
 
 	FLYAUDIO_API const char* audioTags(const char* file) {
-		FileRef f = FileRef(file, true, AudioProperties::ReadStyle::Average);
+		FileRef f(file, true, AudioProperties::ReadStyle::Average);
 		json j;
 		PropertyMap map = f.tag()->properties();
 		for (PropertyMap::ConstIterator it = map.begin(); it != map.end(); it++) {
@@ -237,7 +237,7 @@ extern "C" {
 	}
 
 	FLYAUDIO_API const char* audioProperties(const char* file) {
-		FileRef f = FileRef(file, true, AudioProperties::ReadStyle::Accurate);
+		FileRef f(file, true, AudioProperties::ReadStyle::Accurate);
 		json j;
 		PropertyMap map = f.file()->properties();
 		for (PropertyMap::ConstIterator it = map.begin(); it != map.end(); it++) {
@@ -410,11 +410,9 @@ extern "C" {
 					cacheFileName += "_" + string(audioCoverType(frm->type()));
 					cacheFileName += "." + string(audioArtExt(frm->picture()));
 
-					freopen(cacheFileName.c_str(), "wb", stdout);
-					cout << frm->picture();
-#ifdef _DEVEL
-					freopen("CON", "w", stdout);
-#endif
+					FILE* fp = fopen(cacheFileName.c_str(), "wb");
+					fwrite(frm->picture().data(), sizeof(char), frm->picture().size(), fp);
+					fclose(fp);
 					item["file"] = cacheFileName.c_str();
 				}
 				else {
@@ -461,11 +459,9 @@ extern "C" {
 				cacheFileName += "_" + string(audioCoverType(pics[i]->type()));
 				cacheFileName += "." + string(audioArtExt(pics[i]->data()));
 
-				freopen(cacheFileName.c_str(), "wb", stdout);
-				cout << pics[i]->data();
-#ifdef _DEVEL
-				freopen("CON", "w", stdout);
-#endif
+				FILE* fp = fopen(cacheFileName.c_str(), "wb");
+				fwrite(pics[i]->data().data(), sizeof(char), pics[i]->data().size(), fp);
+				fclose(fp);
 				item["file"] = cacheFileName.c_str();
 			}
 			else {
@@ -526,11 +522,9 @@ extern "C" {
 						cacheFileName += "_" + type;
 						cacheFileName += "." + string(audioArtExt(picBin));
 
-						freopen(cacheFileName.c_str(), "wb", stdout);
-						cout << picBin;
-#ifdef _DEVEL
-						freopen("CON", "w", stdout);
-#endif
+						FILE* fp = fopen(cacheFileName.c_str(), "wb");
+						fwrite(picBin.data(), sizeof(char), picBin.size(), fp);
+						fclose(fp);
 						item["file"] = cacheFileName.c_str();
 					}
 					else {
@@ -560,11 +554,9 @@ extern "C" {
 	 * 若cacheDir为空，bin == 0时返回第一张封面的二进制字节数组；bin == 1时输出第一张图片的Base64；bin为其它值时，将json中的file填充图片的Base64
 	 */
 	FLYAUDIO_API const char* audioArts(const char* filePath, const char* cacheDir, int bin) {
-		// todo 手动判断文件类型读取标签
 		FileRef ref(filePath);
 		File* f = ref.file();
 		char* res = NULL;
-
 		if (dynamic_cast<APE::File*>(f)) {
 			APE::File* file = dynamic_cast<APE::File*>(f);
 			if (file->hasAPETag()) {
@@ -581,7 +573,7 @@ extern "C" {
 			strcpy_s(res, strlen(ret) + 1, ret);
 			res[strlen(ret)] = '\0';
 
-			if (strlen(res) == 0 && file->hasID3v2Tag()) {
+			if (strlen(ret) == 0 && file->hasID3v2Tag()) {
 				ret = getAudioArtsInternalId3v2(ref, file->ID3v2Tag(), filePath, cacheDir, bin);
 				delete[] res;
 				res = new char[strlen(ret) + 1];
