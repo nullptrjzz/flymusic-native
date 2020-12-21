@@ -32,6 +32,21 @@ struct DEVICE_INFO {
 	bool isDefault;
 };
 
+/* 音频文件基本信息 */
+struct AUDIO_META {
+	int sampleRate;
+	int channels;
+	int length;
+	int bitRate;
+
+	AUDIO_META(int sampleRate, int channels, int length, int bitRate) {
+		this->sampleRate = sampleRate;
+		this->channels = channels;
+		this->length = length;
+		this->bitRate = bitRate;
+	}
+};
+
 /* 音频文件的封面 */
 struct AUDIO_ARTS {
 	int type;
@@ -74,4 +89,5 @@ extern "C" {
 	FLYAUDIO_API const char* audioTags(const char* file);
 	FLYAUDIO_API const char* audioProperties(const char* file);
 	FLYAUDIO_API const char* audioArts(const char* file, const char* cacheDir, int bin);
+	FLYAUDIO_API AUDIO_META* audioMeta(const char* filePath);
 }

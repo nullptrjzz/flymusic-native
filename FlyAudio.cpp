@@ -689,4 +689,14 @@ extern "C" {
 		if (res == NULL || strlen(res) == 0) return "{\"count\": 0}";
 		return res;
 	}
+
+	FLYAUDIO_API AUDIO_META* audioMeta(const char* filePath) {
+		FileRef ref(filePath);
+		return new AUDIO_META(
+			ref.audioProperties()->sampleRate(),
+			ref.audioProperties()->channels(),
+			ref.audioProperties()->lengthInMilliseconds(),
+			ref.audioProperties()->bitrate()
+		);
+	}
 }
