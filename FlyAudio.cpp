@@ -336,6 +336,10 @@ extern "C" {
 		return vec;
 	}
 
+	string getCacheFileMd5(ByteVector vec) {
+		return MD5::MD5(vec.data()).toStr();
+	}
+
 	const char* audioArtExt(ByteVector vec) {
 		unsigned char* jpg = new unsigned char[2]{ 0xFF, 0xD8 };
 		unsigned char* png = new unsigned char[8]{ 0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a };
@@ -406,7 +410,7 @@ extern "C" {
 						cacheFileName += "/";
 #endif // _WIN32
 					}
-					cacheFileName += MD5::MD5(file).toStr();
+					cacheFileName += getCacheFileMd5(frm->picture().data());
 					cacheFileName += "_" + string(audioCoverType(frm->type()));
 					cacheFileName += "." + string(audioArtExt(frm->picture()));
 
@@ -455,7 +459,7 @@ extern "C" {
 					cacheFileName += "/";
 #endif // _WIN32
 				}
-				cacheFileName += MD5::MD5(file).toStr();
+				cacheFileName += getCacheFileMd5(pics[i]->data());
 				cacheFileName += "_" + string(audioCoverType(pics[i]->type()));
 				cacheFileName += "." + string(audioArtExt(pics[i]->data()));
 
@@ -518,7 +522,7 @@ extern "C" {
 							cacheFileName += "/";
 #endif // _WIN32
 						}
-						cacheFileName += MD5::MD5(file).toStr();
+						cacheFileName += getCacheFileMd5(picBin);
 						cacheFileName += "_" + type;
 						cacheFileName += "." + string(audioArtExt(picBin));
 
