@@ -686,7 +686,7 @@ extern "C" {
 		else if (dynamic_cast<ASF::File*>(f)) {
 		}
 
-		if (res == NULL || strlen(res) == 0) return "[]";
+		if (res == NULL || strlen(res) == 0) return "{\"count\": 0}";
 		return res;
 	}
 }
