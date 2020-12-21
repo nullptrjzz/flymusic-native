@@ -562,7 +562,7 @@ extern "C" {
 			if (file->hasAPETag()) {
 				const char* ret = getAudioArtsInternalApe(ref, file->APETag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -570,14 +570,14 @@ extern "C" {
 			FLAC::File* file = dynamic_cast<FLAC::File*>(f);
 			const char* ret = getAudioArtsInternalFlac(file, filePath, cacheDir, bin);
 			res = new char[strlen(ret) + 1];
-			strcpy_s(res, strlen(ret) + 1, ret);
+			strcpy(res, ret);
 			res[strlen(ret)] = '\0';
 
 			if (strlen(ret) == 0 && file->hasID3v2Tag()) {
 				ret = getAudioArtsInternalId3v2(ref, file->ID3v2Tag(), filePath, cacheDir, bin);
 				delete[] res;
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -591,7 +591,7 @@ extern "C" {
 			if (file->hasAPETag()) {
 				const char* ret = getAudioArtsInternalApe(ref, file->APETag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -600,14 +600,14 @@ extern "C" {
 			if (file->hasID3v2Tag()) {
 				const char* ret = getAudioArtsInternalId3v2(ref, file->ID3v2Tag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 			if (strlen(res) == 0 && file->hasAPETag()) {
 				const char* ret = getAudioArtsInternalApe(ref, file->APETag(), filePath, cacheDir, bin);
 				delete[] res;
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -616,7 +616,7 @@ extern "C" {
 			if (file->hasXiphComment()) {
 				const char* ret = getAudioArtsInternalXiph(file->tag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -624,21 +624,21 @@ extern "C" {
 			Ogg::Speex::File* file = dynamic_cast<Ogg::Speex::File*>(f);
 			const char* ret = getAudioArtsInternalXiph(file->tag(), filePath, cacheDir, bin);
 			res = new char[strlen(ret) + 1];
-			strcpy_s(res, strlen(ret) + 1, ret);
+			strcpy(res, ret);
 			res[strlen(ret)] = '\0';
 		}
 		else if (dynamic_cast<Ogg::Opus::File*>(f)) {
 			Ogg::Opus::File* file = dynamic_cast<Ogg::Opus::File*>(f);
 			const char* ret = getAudioArtsInternalXiph(file->tag(), filePath, cacheDir, bin);
 			res = new char[strlen(ret) + 1];
-			strcpy_s(res, strlen(ret) + 1, ret);
+			strcpy(res, ret);
 			res[strlen(ret)] = '\0';
 		}
 		else if (dynamic_cast<Ogg::Vorbis::File*>(f)) {
 			Ogg::Vorbis::File* file = dynamic_cast<Ogg::Vorbis::File*>(f);
 			const char* ret = getAudioArtsInternalXiph(file->tag(), filePath, cacheDir, bin);
 			res = new char[strlen(ret) + 1];
-			strcpy_s(res, strlen(ret) + 1, ret);
+			strcpy(res, ret);
 			res[strlen(ret)] = '\0';
 		}
 		else if (dynamic_cast<RIFF::AIFF::File*>(f)) {
@@ -646,7 +646,7 @@ extern "C" {
 			if (file->hasID3v2Tag()) {
 				const char* ret = getAudioArtsInternalId3v2(ref, file->tag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -655,7 +655,7 @@ extern "C" {
 			if (file->hasID3v2Tag()) {
 				const char* ret = getAudioArtsInternalId3v2(ref, file->tag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -666,7 +666,7 @@ extern "C" {
 			if (file->hasID3v2Tag()) {
 				const char* ret = getAudioArtsInternalId3v2(ref, file->ID3v2Tag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
@@ -675,7 +675,7 @@ extern "C" {
 			if (file->hasAPETag()) {
 				const char* ret = getAudioArtsInternalApe(ref, file->APETag(), filePath, cacheDir, bin);
 				res = new char[strlen(ret) + 1];
-				strcpy_s(res, strlen(ret) + 1, ret);
+				strcpy(res, ret);
 				res[strlen(ret)] = '\0';
 			}
 		}
