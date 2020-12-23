@@ -92,6 +92,8 @@ public:
 	/* Construct a MD5 object with a string. */
 	MD5(const string& message);
 
+	MD5(const char* message, int len);
+
 	/* Generate md5 digest. */
 	const byte* getDigest();
 

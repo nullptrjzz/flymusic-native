@@ -228,6 +228,9 @@ extern "C" {
 
 	FLYAUDIO_API const char* audioTags(const char* file) {
 		FileRef f(file, true, AudioProperties::ReadStyle::Average);
+		if (f.tag() == NULL || f.tag()->properties().isEmpty()) {
+			return "{}";
+		}
 		json j;
 		PropertyMap map = f.tag()->properties();
 		for (PropertyMap::ConstIterator it = map.begin(); it != map.end(); it++) {
@@ -238,6 +241,9 @@ extern "C" {
 
 	FLYAUDIO_API const char* audioProperties(const char* file) {
 		FileRef f(file, true, AudioProperties::ReadStyle::Accurate);
+		if (f.file()->properties().isEmpty()) {
+			return "{}";
+		}
 		json j;
 		PropertyMap map = f.file()->properties();
 		for (PropertyMap::ConstIterator it = map.begin(); it != map.end(); it++) {
@@ -337,7 +343,7 @@ extern "C" {
 	}
 
 	string getCacheFileMd5(ByteVector vec) {
-		return MD5::MD5(vec.data()).toStr();
+		return MD5::MD5(vec.data(), vec.size()).toStr();
 	}
 
 	const char* audioArtExt(ByteVector vec) {
@@ -696,11 +702,43 @@ extern "C" {
 
 	FLYAUDIO_API AUDIO_META* audioMeta(const char* filePath) {
 		FileRef ref(filePath);
-		return new AUDIO_META(
-			ref.audioProperties()->sampleRate(),
-			ref.audioProperties()->channels(),
-			ref.audioProperties()->lengthInMilliseconds(),
-			ref.audioProperties()->bitrate()
-		);
+		if (ref.audioProperties() != NULL) {
+			return new AUDIO_META(
+				ref.audioProperties()->sampleRate(),
+				ref.audioProperties()->channels(),
+				ref.audioProperties()->lengthInMilliseconds(),
+				ref.audioProperties()->bitrate()
+			);
+		}
+		else {
+			// 尝试用BASS解析
+			HSTREAM tempStream = 0;
+			tempStream = BASS_StreamCreateFile(FALSE, filePath, 0, 0, 0);
+			if (tempStream == 0) {
+				if (BASS_ErrorGetCode() == BASS_ERROR_INIT) {
+					init(-1, 44100);
+					tempStream = BASS_StreamCreateFile(FALSE, filePath, 0, 0, 0);
+				}
+				else {
+					BASS_StreamFree(tempStream);
+					return new AUDIO_META(0, 0, 0, 0);
+				}
+			}
+			float bitRate = 0;
+			float sampleRate = 0;
+			BASS_ChannelGetAttribute(tempStream, BASS_ATTRIB_FREQ, &sampleRate);
+			BASS_ChannelGetAttribute(tempStream, BASS_ATTRIB_BITRATE, &bitRate);
+
+			unsigned long long len = BASS_ChannelGetLength(tempStream, BASS_POS_BYTE);
+			double length = BASS_ChannelBytes2Seconds(tempStream, len) * 1000;
+
+			BASS_CHANNELINFO* info = new BASS_CHANNELINFO();
+			BASS_ChannelGetInfo(tempStream, info);
+			int chans = info->chans;
+
+			BASS_StreamFree(tempStream);
+			free(info);
+			return new AUDIO_META(sampleRate, chans, length, bitRate);
+		}
 	}
 }
