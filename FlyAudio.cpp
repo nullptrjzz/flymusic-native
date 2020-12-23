@@ -343,7 +343,7 @@ extern "C" {
 	}
 
 	string getCacheFileMd5(ByteVector vec) {
-		return MD5::MD5(vec.data(), vec.size()).toStr();
+		return MD5(vec.data(), vec.size()).toStr();
 	}
 
 	const char* audioArtExt(ByteVector vec) {

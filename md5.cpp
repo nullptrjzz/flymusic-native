@@ -39,7 +39,7 @@ MD5::MD5(const string& message) {
     init((const byte*)message.c_str(), message.length());
 }
 
-MD5::MD5(const char* message, int len) {
+MD5::MD5(const char* message, size_t len) {
     finished = false;
     /* Reset number of bits. */
     count[0] = count[1] = 0;
