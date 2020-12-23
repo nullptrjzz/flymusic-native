@@ -51,6 +51,7 @@
 #ifdef _WIN32
 #include <Windows.h>
 #pragma comment (lib, "bass.lib")
+#pragma comment (lib, "bassflac.lib")
 #pragma comment (lib, "tag.lib")
 #pragma comment (lib, "tag_c.lib")
 #else
@@ -145,18 +146,24 @@ extern "C" {
         }
         else {
             BASS_StreamFree(stream);
-            return loadFlacFile(file);
+            return BASS_ErrorGetCode();
         }
 	}
 
 	FLYAUDIO_API int loadFile(const char* file) {
-		stream = BASS_StreamCreateFile(FALSE, file, 0, 0, 0);
-		if (stream != 0) {
-			return 0;
+		// 先尝试使用FLAC解码
+		if (loadFlacFile(file) != 0) {
+			stream = BASS_StreamCreateFile(FALSE, file, 0, 0, 0);
+			if (stream != 0) {
+				return 0;
+			}
+			else {
+				BASS_StreamFree(stream);
+				return loadFlacFile(file);
+			}
 		}
 		else {
-		    BASS_StreamFree(stream);
-			return loadFlacFile(file);
+			return 0;
 		}
 	}
 
