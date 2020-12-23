@@ -6,6 +6,7 @@
 
 #include "FlyAudio.h"
 #include "bass.h"
+#include "bassflac.h"
 #include "json.hpp"
 #include "md5.h"
 #include <taglib/fileref.h>
@@ -137,13 +138,25 @@ extern "C" {
 		return BASS_SetDevice(id);
 	}
 
+	int loadFlacFile(const char* file) {
+        stream = BASS_FLAC_StreamCreateFile(FALSE, file, 0, 0, 0);
+        if (stream != 0) {
+            return 0;
+        }
+        else {
+            BASS_StreamFree(stream);
+            return loadFlacFile(file);
+        }
+	}
+
 	FLYAUDIO_API int loadFile(const char* file) {
 		stream = BASS_StreamCreateFile(FALSE, file, 0, 0, 0);
 		if (stream != 0) {
 			return 0;
 		}
 		else {
-			return BASS_ErrorGetCode();
+		    BASS_StreamFree(stream);
+			return loadFlacFile(file);
 		}
 	}
 
