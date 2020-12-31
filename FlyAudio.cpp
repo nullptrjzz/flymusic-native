@@ -47,15 +47,18 @@
 #include<taglib/xmfile.h>
 #include<taglib/mp4file.h>
 
+#include "kb.hpp"
+
+#include <iostream>
 
 #ifdef _WIN32
-#include <Windows.h>
 #pragma comment (lib, "bass.lib")
 #pragma comment (lib, "bassflac.lib")
 #pragma comment (lib, "tag.lib")
 #pragma comment (lib, "tag_c.lib")
 #else
 #endif
+#define logd printf
 
 using namespace TagLib;
 using namespace std;
@@ -104,6 +107,10 @@ extern "C" {
 	FLYAUDIO_API void init(int device, int freq) {
 		// BASS_Init(-1, 44100, 0, 0, 0);
 		BASS_Init(device, freq, 0, 0, 0);
+	}
+
+	FLYAUDIO_API void setRpcPort(int port) {
+		initKbHook(port);
 	}
 
 	FLYAUDIO_API DEVICE_INFO** getDevices() {

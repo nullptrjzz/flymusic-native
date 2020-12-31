@@ -60,6 +60,7 @@ struct AUDIO_ARTS {
 extern "C" {
 	/* Player control */
 	FLYAUDIO_API void init(int, int);
+	FLYAUDIO_API void setTcpPort(int port);
 	FLYAUDIO_API DEVICE_INFO** getDevices();
 	FLYAUDIO_API int getDeviceCount();
 	FLYAUDIO_API bool setDevice(int);

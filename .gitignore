@@ -354,3 +354,5 @@ bass24-win32/
 /id3v2.lib
 cmake-*
 .idea
+
+log.hpp

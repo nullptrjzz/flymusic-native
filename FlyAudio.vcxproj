@@ -161,7 +161,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FlyAudio.h" />
+    <ClInclude Include="kb.hpp" />
+    <ClInclude Include="log.hpp" />
     <ClInclude Include="md5.h" />
+    <ClInclude Include="push.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />

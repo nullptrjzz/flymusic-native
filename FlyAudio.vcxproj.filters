@@ -24,6 +24,15 @@
     <ClInclude Include="md5.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="kb.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="push.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="log.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FlyAudio.cpp">
