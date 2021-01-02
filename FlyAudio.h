@@ -66,9 +66,9 @@ extern "C" {
 	FLYAUDIO_API bool setDevice(int);
 	FLYAUDIO_API int loadFile(const char*);
 
-	FLYAUDIO_API bool play();
-	FLYAUDIO_API bool pause();
-	FLYAUDIO_API bool stop();
+	FLYAUDIO_API bool fa_play();
+	FLYAUDIO_API bool fa_pause();
+	FLYAUDIO_API bool fa_stop();
 
 	FLYAUDIO_API double getDuration();
 
@@ -85,7 +85,7 @@ extern "C" {
 	FLYAUDIO_API float getCpu();
 
 	FLYAUDIO_API void freeStream();
-	FLYAUDIO_API void close();
+	FLYAUDIO_API void fa_close();
 
 	FLYAUDIO_API const char* audioTags(const char* file);
 	FLYAUDIO_API const char* audioProperties(const char* file);

@@ -47,9 +47,11 @@
 #include<taglib/xmfile.h>
 #include<taglib/mp4file.h>
 
+#ifdef _WIN32
 #include "kb.hpp"
-
-#include <iostream>
+#else
+#include "kb_lin.hpp"
+#endif
 
 #ifdef _WIN32
 #pragma comment (lib, "bass.lib")
@@ -174,15 +176,15 @@ extern "C" {
 		}
 	}
 
-	FLYAUDIO_API bool play() {
+	FLYAUDIO_API bool fa_play() {
 		return BASS_ChannelPlay(stream, false);
 	}
 
-	FLYAUDIO_API bool pause() {
+	FLYAUDIO_API bool fa_pause() {
 		return BASS_ChannelPause(stream);
 	}
 
-	FLYAUDIO_API bool stop() {
+	FLYAUDIO_API bool fa_stop() {
 		return BASS_ChannelStop(stream);
 	}
 
@@ -236,7 +238,7 @@ extern "C" {
 		stream = 0;
 	}
 
-	FLYAUDIO_API void close() {
+	FLYAUDIO_API void fa_close() {
 		BASS_StreamFree(stream);
 		BASS_Free();
 	}
