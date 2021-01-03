@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef PUSH_HPP
+#define PUSH_HPP
+
 #ifdef _WIN32
 #define _WINSOCK_DEPRECATED_NO_WARNINGS
 #define WIN32_LEAN_AND_MEAN
@@ -60,4 +63,6 @@ int push(int port, const char* content, int len) {
     close(sock_fd);
     return 0;
 }
+#endif
+
 #endif

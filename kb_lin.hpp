@@ -66,27 +66,37 @@ static pthread_cond_t hook_control_cond;
 
 int rpcPort = 0;
 
+#ifdef PUSH_HPP
+bool logger_proc(unsigned int level, const char *format, ...) {
+    return true;
+}
+#else
 bool logger_proc(unsigned int level, const char *format, ...) {
     bool status = false;
 
-//    va_list args;
-//    switch (level) {
-//        case LOG_LEVEL_INFO:
-//            va_start(args, format);
-//            status = vfprintf(stdout, format, args) >= 0;
-//            va_end(args);
-//            break;
-//
-//        case LOG_LEVEL_WARN:
-//        case LOG_LEVEL_ERROR:
-//            va_start(args, format);
-//            status = vfprintf(stderr, format, args) >= 0;
-//            va_end(args);
-//            break;
-//    }
+    va_list args;
+    switch (level) {
+        case LOG_LEVEL_INFO:
+            va_start(args, format);
+            status = vfprintf(stdout, format, args) >= 0;
+            va_end(args);
+            break;
+
+        case LOG_LEVEL_WARN:
+        case LOG_LEVEL_ERROR:
+            va_start(args, format);
+            status = vfprintf(stderr, format, args) >= 0;
+            va_end(args);
+            break;
+    }
 
     return status;
 }
+
+int push(int port, const char* content, int len) {
+    logger_proc(LOG_LEVEL_INFO, "Push to port [%d] with content [%s](len %d)\n", port, content, len);
+}
+#endif
 
 void dispatch_proc(uiohook_event * const event) {
 
