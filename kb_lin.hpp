@@ -143,21 +143,21 @@ void dispatch_proc(uiohook_event * const event) {
             logger_proc(LOG_LEVEL_INFO, "Keycode: 0x%X 0x%X 0x%X %s\n", event->mask, event->data.keyboard.keycode, event->data.keyboard.rawcode, XKeysymToString(event->data.keyboard.rawcode));
 
             if (event->data.keyboard.keycode == 0) {
+                const char* inf = NULL;
                 switch (event->data.keyboard.rawcode) {
                     case 0xFF16:
-                        push(rpcPort, "prev", 4);
+                        inf = "KEY_HOOK prev";
                         break;
                     case 0xFF14:
-                        push(rpcPort, "play", 4);
+                        inf = "KEY_HOOK play";
                         break;
                     case 0xFF17:
-                        push(rpcPort, "next", 4);
+                        inf = "KEY_HOOK next";
                         break;
                 }
+                if (inf) push(rpcPort, inf, strlen(inf));
             }
-
             break;
-
         default:
             break;
     }
