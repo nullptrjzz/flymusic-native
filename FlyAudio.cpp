@@ -276,7 +276,15 @@ extern "C" {
 		json j;
 		PropertyMap map = f.file()->properties();
 		for (PropertyMap::ConstIterator it = map.begin(); it != map.end(); it++) {
-			j[it->first.toCString(true)] = it->second.toString().toCString(true);
+		    if (it->second.size() == 1) {
+                j[it->first.toCString(true)] = it->second.toString().toCString(true);;
+		    } else {
+                json value;
+                for (int strIndex = 0; strIndex < it->second.size(); strIndex++) {
+                    value[strIndex] = it->second[strIndex].toCString(true);
+                }
+                j[it->first.toCString(true)] = value;
+		    }
 		}
 		return dumpStr(j);
 	}
