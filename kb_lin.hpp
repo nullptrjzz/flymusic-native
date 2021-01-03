@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#ifndef _WIN32
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -418,3 +419,5 @@ int initKbHook(int port) {
 
     return status;
 }
+
+#endif

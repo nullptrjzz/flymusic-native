@@ -33,6 +33,21 @@
     <ClInclude Include="log.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="kb_lin.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="bass.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="bassflac.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="uiohook.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FlyAudio.cpp">
